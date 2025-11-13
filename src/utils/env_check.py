@@ -14,7 +14,7 @@ def check_env():
     wrong_type_variables = []
 
     # Stores all necessary variables
-    variables = [
+    variables: list[tuple] = [
         ("DATABASE_URI", str), ("DATABASE_NAME", str),
         ("REDIS_HOST", str), ("REDIS_PORT", int),
         ("SCRAPING_QUEUE_NAME", str)
@@ -24,15 +24,18 @@ def check_env():
     for var_name, var_type in variables:
 
         # Fetches the value from .env file
-        env_variable = os.getenv(var_name)
-
-        # Checks if the value is as expected
-        if env_variable is var_type:
-            wrong_type_variables.append(var_name)
+        env_variable = os.getenv(f"{var_name}")
 
         # Checks if value is not None or Empty
-        if not env_variable:
+        if env_variable is None or env_variable == "":
             missing_variables.append(var_name)
+
+        # Type validation for non-string types
+        if env_variable is not None and var_type == int:
+            try:
+                int(env_variable)
+            except ValueError:
+                wrong_type_variables.append(var_name)
 
     # Checks if there are any missing variables
     if len(missing_variables):
