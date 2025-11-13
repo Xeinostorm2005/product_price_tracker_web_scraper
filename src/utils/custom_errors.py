@@ -6,9 +6,9 @@ from typing import Literal
 class MissingVariablesInEnv(Exception):
 
     # Default variables
-    default_message_notfound = "Found missing variables in the .env file!"
-    default_message_wrong_type = "Wrong value types in the .env file!"
-    default_error_code = 500
+    MESSAGE_NOTFOUND = "Found missing variables in the .env file!"
+    MESSAGE_WRONG_TYPE = "Wrong value types in the .env file!"
+    ERROR_CODE = 500
 
     # Initialize Error Exception
     def __init__(
@@ -20,12 +20,12 @@ class MissingVariablesInEnv(Exception):
     ):
         # Respond with a specific message
         if error_type == "notfound":
-            self.message = message or self.default_message_notfound
+            self.message = message or self.MESSAGE_NOTFOUND
         else:
-            self.message = message or self.default_message_wrong_type
+            self.message = message or self.MESSAGE_WRONG_TYPE
 
         # Returns default or specific error code
-        self.code = code or self.default_error_code
+        self.code = code or self.ERROR_CODE
 
         # Shows which variables needs to be updated
         self.variables = variables
